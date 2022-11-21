@@ -16,14 +16,14 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout linlay;
-
-
+    int[] array = new int[]{11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    String bufArray = "";
+    TextView txtArraySorted;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
-
-        int array[] = new int[] {11,12,13,14,15,16,17,18,19,0,1,2,3,4,5,6,7,8,9,10};
 
         linlay = new LinearLayout(this);
         linlay.setLayoutParams(new LinearLayout.LayoutParams(
@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         txtAnuncio.setText("Choose a sort's algorithm");
         linlay.addView(txtAnuncio);
 
-        String bufArray = "<[";
+        bufArray = "<[";
         Log.e("ERROR ",String.valueOf(array.length));
         for(int i = 0; i < array.length; i++) {
             bufArray = bufArray + Integer.toString(array[i]);
@@ -52,7 +52,19 @@ public class MainActivity extends AppCompatActivity {
         btnSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("Info","Pendent call function sort");
+                BubbleSort bubbleSort = new BubbleSort(array);
+                bubbleSort.BubbleSort();
+                array = bubbleSort.getArray();
+                bufArray = "";
+                bufArray = "<[";
+                Log.e("ERROR ",String.valueOf(array.length));
+                for(int i = 0; i < array.length; i++) {
+                    bufArray = bufArray + Integer.toString(array[i]);
+                    if(i < array.length-1) bufArray += ", ";
+                    else bufArray += "]>";
+                }
+                Log.e("ERROR ",bufArray);
+                txtArraySorted.setText(bufArray);
             }
         });
         linlay.addView(btnSort);
@@ -66,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             else bufArray += "]>";
         }
         Log.e("ERROR ",bufArray);
-        TextView txtArraySorted = new TextView(this);
+        txtArraySorted = new TextView(this);
         txtArraySorted.setText(bufArray);
         linlay.addView(txtArraySorted);
 

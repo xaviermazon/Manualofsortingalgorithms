@@ -1,5 +1,9 @@
 explicar paso a paso de cada algoritmo
 poner 3 ejercicios de 3 dificultades
+    - Facil: 5 elementos de 0-10 de rango
+    - Normal: 15 elementos de 0-20 de rango
+    - Dificil: 30 elementos de 0-40 de rango
+
 Establecer una configuracion de usuario:
     Nombre
     Idioma

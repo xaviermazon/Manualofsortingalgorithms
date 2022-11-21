@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     int[] array = new int[]{11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     String bufArray = "";
     TextView txtArraySorted;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 BubbleSort bubbleSort = new BubbleSort(array);
-                bubbleSort.BubbleSort();
+                bubbleSort.BubbleSortImproved();
                 array = bubbleSort.getArray();
                 bufArray = "";
                 bufArray = "<[";

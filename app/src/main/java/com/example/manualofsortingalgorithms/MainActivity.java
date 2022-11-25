@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         btnSort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SelectionSort selectionSort = new SelectionSort(array);
-                selectionSort.sort();
-                array = selectionSort.getArray();
+                InsertionSort inSort = new InsertionSort(array);
+                inSort.sort();
+                array = inSort.getArray();
                 bufArray = "";
                 bufArray = "<[";
                 Log.e("ERROR ",String.valueOf(array.length));

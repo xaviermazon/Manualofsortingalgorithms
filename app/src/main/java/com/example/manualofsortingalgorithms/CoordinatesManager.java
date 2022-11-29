@@ -102,7 +102,6 @@ public class CoordinatesManager {
             if (!pm.thereIsSelected())
                 pm.select(worldfinger2);
         } else {
-
             point o1 = worldfinger1;
             point ox1 = point.sub(worldfinger2, worldfinger1);
             point oy1 = point.orthogonal(ox1);

@@ -43,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
 
-        //if(this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
-        //    config.orientation = Configuration.ORIENTATION_LANDSCAPE;
-        //    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-        //}
+        if(this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
+            config.orientation = Configuration.ORIENTATION_LANDSCAPE;
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
 
         linlay.setOrientation(LinearLayout.VERTICAL);
         linlay.setGravity(Gravity.CENTER_HORIZONTAL);
@@ -61,8 +61,21 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageBitmap(bitmap);
         canvas = new Canvas();
         canvas.setBitmap(bitmap);
-        canvas.drawColor(Color.GRAY);
+        canvas.drawColor(Color.LTGRAY);
 
+        LinearLayout llPanel = new LinearLayout(this);
+        llPanel.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.MATCH_PARENT));
+        llPanel.setOrientation(LinearLayout.HORIZONTAL);
+        llPanel.setGravity(Gravity.CENTER_HORIZONTAL);
+
+
+        Button btnPlaceholder = new Button(this);
+        btnPlaceholder.setText("btnPlaceholder");
+        llPanel.addView(btnPlaceholder);
+
+        linlay.addView(llPanel);
         setContentView(linlay);
     }
 }

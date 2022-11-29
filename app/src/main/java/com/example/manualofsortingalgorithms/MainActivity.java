@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView imageView;
     Bitmap bitmap;
     Canvas canvas;
+    CoordinatesManager cm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

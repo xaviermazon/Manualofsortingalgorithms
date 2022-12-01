@@ -15,6 +15,8 @@ public class Polygon {
     Paint boardColor;
 
     Polygon(point center, double radius, int numvertices) {
+        c = center;
+        r = radius;
         v = new point[numvertices];
         for (int i = 0; i < v.length; i++) {
             v[i] = point.sum(center, point.polar(radius, i * 2 * Math.PI / numvertices));
@@ -77,6 +79,8 @@ public class Polygon {
         tmp.setStrokeWidth(0.02f);
         canvas.drawLine(0, 1, 0, -1, tmp);
         canvas.drawLine(1, 0, -1, 0, tmp);
+        tmp.setStyle(Paint.Style.STROKE);
+        canvas.drawRect((float) (c.x-r), (float) (c.y+r), (float) (c.x+r), (float) (c.y-r),tmp);
     }
 
     boolean inside(point p) {

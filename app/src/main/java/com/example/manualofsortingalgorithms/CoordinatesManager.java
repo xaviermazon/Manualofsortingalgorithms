@@ -1,5 +1,7 @@
 package com.example.manualofsortingalgorithms;
 
+import android.util.Log;
+
 public class CoordinatesManager {
 
     int size;
@@ -80,15 +82,16 @@ public class CoordinatesManager {
         if (numfingers != 1) {
             numfingers = 1;
             worldfinger = newworldfinger;
-            pm.select(worldfinger);
+            //pm.select(worldfinger);
         } else {
-            if (pm.thereIsSelected()) {
-                pm.getSelected().add(point.sub(newworldfinger, worldfinger));
-                worldfinger = newworldfinger;
-            } else {
+            //if (pm.thereIsSelected()) {
+            //    pm.getSelected().add(point.sub(newworldfinger, worldfinger));
+            //    worldfinger = newworldfinger;
+            //} else {
                 O = point.sum(O, point.sub(worldfinger, newworldfinger));
-            }
+            //}
         }
+        Log.e("ONPOINT","O-X: "+O.x+", O-Y: "+O.y);
     }
 
     void touch(point screenfinger1, point screenfinger2) {
@@ -98,28 +101,21 @@ public class CoordinatesManager {
             numfingers = 2;
             worldfinger1 = newworldfinger1;
             worldfinger2 = newworldfinger2;
-            pm.select(worldfinger1);
-            if (!pm.thereIsSelected())
-                pm.select(worldfinger2);
-        } else {
+        } else if(worldfinger1 != newworldfinger1 && worldfinger2 != newworldfinger2) {
             point o1 = worldfinger1;
             point ox1 = point.sub(worldfinger2, worldfinger1);
             point oy1 = point.orthogonal(ox1);
             point o2 = newworldfinger1;
             point ox2 = point.sub(newworldfinger2, newworldfinger1);
             point oy2 = point.orthogonal(ox2);
-            if (pm.thereIsSelected()) {
-                pm.getSelected().moveBetweenRefernces(o1, ox1, oy1, o2, ox2, oy2);
-                worldfinger1 = newworldfinger1;
-                worldfinger2 = newworldfinger2;
-            } else {
-                point newO = point.pointFromReferences
-                        (point.pointToReferences(O, o2, ox2, oy2), o1, ox1, oy1);
-                point newOX = point.vecFromReference(point.vecToReference(OX, ox2, oy2), ox1, oy1);
-                point newOY = point.orthogonal(newOX);
-                O = newO;
-                OX = newOX;
-            }
+            point newO = point.pointFromReferences
+                    (point.pointToReferences(O, o2, ox2, oy2), o1, ox1, oy1);
+            point newOX = point.vecFromReference(point.vecToReference(OX, ox2, oy2), ox1, oy1);
+            point newOY = point.orthogonal(newOX);
+            O = newO;
+            OX = newOX;
+            OY = newOY;
+            Log.e("CAMERA ZOOM","O-X: "+O.x+", O-Y: "+O.y+", OX-X: "+OX.x+", OX-Y: "+OX.y+", OX-y: "+OX.y+", OY-x: "+OY.x+", OY-y: "+OY.y);
         }
     }
 }

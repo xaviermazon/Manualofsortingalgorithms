@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
     Canvas canvas;
     CoordinatesManager cm;
     PolygonManager pm;
+    BubbleSort bs;
 
     void draw() {
         canvas.drawColor(Color.YELLOW);
@@ -45,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 0, 0, 1});
         canvas.save();
         canvas.setMatrix(matrix);
-        pm.draw(canvas);
+        bs.draw(canvas);
         canvas.restore();
         imageView.invalidate();
     }
@@ -56,20 +58,40 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
 
+        bs = new BubbleSort(0);
         config = this.getResources().getConfiguration();
-
         linlay = new LinearLayout(this);
         linlay.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT));
-
+        this.getSupportActionBar().hide();
         if (this.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE) {
             config.orientation = Configuration.ORIENTATION_LANDSCAPE;
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
-
         linlay.setOrientation(LinearLayout.VERTICAL);
         linlay.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        LinearLayout llPanelCam = new LinearLayout(this);
+        llPanelCam.setLayoutParams(new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        llPanelCam.setOrientation(LinearLayout.HORIZONTAL);
+        llPanelCam.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        Button btnPlaceholder = new Button(this);
+        btnPlaceholder.setText("Reset Camera");
+        btnPlaceholder.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cm.setCamera(new point(0, 0), new point(1, 0));
+                draw();
+            }
+        });
+        llPanelCam.addView(btnPlaceholder);
+
+        linlay.addView(llPanelCam);
+
         imageView = new ImageView(this);
         linlay.addView(imageView);
         Point p = new Point();
@@ -85,9 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
         pm = new PolygonManager();
         pm.add(new Polygon(new point(0, 0), 0.3, 4));
+        pm.add(new Polygon(new point(1, 0), 0.3, 4));
+        pm.add(new Polygon(new point(2, 0), 0.3, 4));
 
         cm = new CoordinatesManager();
-        cm.pm = pm;
         cm.size = size;
         cm.setCamera(new point(0, 0), new point(1, 0));
         imageView.setOnTouchListener(new View.OnTouchListener() {
@@ -110,18 +133,24 @@ public class MainActivity extends AppCompatActivity {
 
         draw();
 
-        LinearLayout llPanel = new LinearLayout(this);
-        llPanel.setLayoutParams(new LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT));
-        llPanel.setOrientation(LinearLayout.HORIZONTAL);
-        llPanel.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        Button btnPlaceholder = new Button(this);
-        btnPlaceholder.setText("btnPlaceholder");
-        llPanel.addView(btnPlaceholder);
+        LinearLayout llPanelInteractive = new LinearLayout(this);
+        llPanelInteractive.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        llPanelInteractive.setOrientation(LinearLayout.HORIZONTAL);
+        llPanelInteractive.setGravity(Gravity.CENTER_HORIZONTAL);
 
-        linlay.addView(llPanel);
+        //Button btnPlaceHolder = new Button(this);
+        //btnPlaceholder.setText("btnPlaceholder");
+        //btnPlaceholder.setOnClickListener(new View.OnClickListener() {
+        //    @Override
+        //    public void onClick(View v) {
+        //        cm.setCamera(new point(0, 0), new point(1, 0));
+        //        draw();
+        //    }
+        //});
+        //llPanelCam.addView(btnPlaceholder);
+
+        linlay.addView(llPanelInteractive);
 
         setContentView(linlay);
     }

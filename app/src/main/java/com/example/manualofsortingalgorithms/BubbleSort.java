@@ -1,11 +1,34 @@
 package com.example.manualofsortingalgorithms;
 
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Point;
+
+import androidx.annotation.ColorInt;
+
+import java.util.Random;
+
 public class BubbleSort {
 
     int[] array;
+    int level;
 
-    BubbleSort(int[] array) {
-        this.array = array;
+    BubbleSort(int level) {
+        int length = 0, range = 0;
+        this.level = level;
+        switch(level) {
+            case 1:  length = 10;
+                     range = 20;
+                     break;
+            case 2:  length = 30;
+                     range = 40;
+                     break;
+            default: length = 5;
+                     range = 10;
+        }
+        array = new int[length];
+        for(int i = 0; i < length; i++) array[i] = new Random().nextInt() % range;
     }
 
     void BubbleSort() {
@@ -38,4 +61,19 @@ public class BubbleSort {
     int[] getArray() {
         return array;
     }
+
+    void draw(Canvas canvas) {
+        Paint tmpCell = new Paint();
+        tmpCell.setColor(Color.YELLOW);
+        canvas.drawPaint(tmpCell);
+
+        canvas.scale(-1f,1f);
+        canvas.rotate(180f);
+        tmpCell.setColor(Color.BLACK);
+        tmpCell.setStyle(Paint.Style.FILL);
+        tmpCell.setTextSize(0.5f);
+        canvas.drawText("5",0.0f,0.0f, tmpCell);
+
+    }
+
 }

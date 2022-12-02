@@ -96,10 +96,10 @@ public class Polygon {
         for (int i = 0; i < v.length; i++) v[i] = point.sum(v[i], p);
     }
 
-    void moveBetweenRefernces(point o1, point ox1, point oy1,
-                              point o2, point ox2, point oy2) {
-        for (int i = 0; i < v.length; i++)
-            v[i] = point.moveBetweenRefernces(v[i], o1, ox1, oy1, o2, ox2, oy2);
-    }
+    //void moveBetweenRefernces(point o1, point ox1, point oy1,
+    //                          point o2, point ox2, point oy2) {
+    //    for (int i = 0; i < v.length; i++)
+    //        v[i] = point.moveBetweenRefernces(v[i], o1, ox1, oy1, o2, ox2, oy2);
+    //}
 
 }

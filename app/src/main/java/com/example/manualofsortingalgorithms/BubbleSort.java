@@ -4,6 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 import androidx.annotation.ColorInt;
 
@@ -67,13 +69,34 @@ public class BubbleSort {
         tmpCell.setColor(Color.YELLOW);
         canvas.drawPaint(tmpCell);
 
-        canvas.scale(-1f,1f);
-        canvas.rotate(180f);
+        //canvas.scale(-1f,1f);
+        //canvas.rotate(180f);
         tmpCell.setColor(Color.BLACK);
         tmpCell.setStyle(Paint.Style.FILL);
-        tmpCell.setTextSize(0.5f);
+        float textsize=0.5f;
+        tmpCell.setTextSize(textsize);
         canvas.drawText("5",0.0f,0.0f, tmpCell);
 
+
+        double scale=100.0;
+        tmpCell.setTextSize((float)(textsize*scale));
+        Rect r = new Rect();
+        String text="5";
+        tmpCell.getTextBounds(text, 0, text.length(), r);
+        tmpCell.setTextSize(textsize);
+        tmpCell.setColor(Color.BLUE);
+        canvas.drawRect(0,0,(float)(r.width()/scale),(float)(r.height()/scale),tmpCell);
+        //canvas.drawRect(0,0,1,1,tmpCell);
+
+
+        Paint paint=new Paint();
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.FILL);
+        for (int i=0;i<5;i++){
+            for (int j=0;j<10;j++) {
+                canvas.drawCircle(i,j,0.05f,paint);
+            }
+        }
     }
 
 }

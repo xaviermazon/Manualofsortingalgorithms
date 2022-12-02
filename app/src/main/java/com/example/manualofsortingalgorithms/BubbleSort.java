@@ -3,11 +3,11 @@ package com.example.manualofsortingalgorithms;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Rect;
-import android.graphics.RectF;
-
-import androidx.annotation.ColorInt;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 import java.util.Random;
 
@@ -64,6 +64,12 @@ public class BubbleSort {
         return array;
     }
 
+    void switchToElements() {
+        int tmp = array[0];
+        array[0] = array[1];
+        array[1] = tmp;
+    }
+
     void draw(Canvas canvas) {
         Paint tmpCell = new Paint();
         tmpCell.setColor(Color.YELLOW);
@@ -74,20 +80,8 @@ public class BubbleSort {
         tmpCell.setColor(Color.BLACK);
         tmpCell.setStyle(Paint.Style.FILL);
         float textsize=0.5f;
-        tmpCell.setTextSize(textsize);
-        canvas.drawText("5",0.0f,0.0f, tmpCell);
-
-
-        double scale=100.0;
-        tmpCell.setTextSize((float)(textsize*scale));
-        Rect r = new Rect();
-        String text="5";
-        tmpCell.getTextBounds(text, 0, text.length(), r);
-        tmpCell.setTextSize(textsize);
-        tmpCell.setColor(Color.BLUE);
-        canvas.drawRect(0,0,(float)(r.width()/scale),(float)(r.height()/scale),tmpCell);
-        //canvas.drawRect(0,0,1,1,tmpCell);
-
+        tmpCell.setTextSize(12f);
+        canvas.drawText(array[0]+" "+array[1],0.0f,0.0f, tmpCell);
 
         Paint paint=new Paint();
         paint.setColor(Color.RED);
@@ -99,4 +93,22 @@ public class BubbleSort {
         }
     }
 
+    LinearLayout PutPanel(MainActivity mainActivity) {
+        LinearLayout llPanelInteractive = new LinearLayout(mainActivity);
+        llPanelInteractive.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        llPanelInteractive.setOrientation(LinearLayout.HORIZONTAL);
+        llPanelInteractive.setGravity(Gravity.CENTER_HORIZONTAL);
+
+        Button btnSwitchElement = new Button(mainActivity);
+        btnSwitchElement.setText("Switch element");
+        btnSwitchElement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchToElements();
+                mainActivity.draw();
+            }
+        });
+        llPanelInteractive.addView(btnSwitchElement);
+        return llPanelInteractive;
+    }
 }

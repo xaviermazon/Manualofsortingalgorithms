@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     CoordinatesManager cm;
     PolygonManager pm;
     BubbleSort bs;
+    point pCamera = new point(24, 0);
 
     void draw() {
         canvas.drawColor(Color.YELLOW);
@@ -84,7 +85,7 @@ public class MainActivity extends AppCompatActivity {
         btnPlaceholder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cm.setCamera(new point(0, 0), new point(1, 0));
+                cm.setCamera(new point(0, 0), pCamera);
                 draw();
             }
         });
@@ -112,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
 
         cm = new CoordinatesManager();
         cm.size = size;
-        cm.setCamera(new point(0, 0), new point(1, 0));
+        cm.setCamera(new point(0, 0), pCamera);
         imageView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -133,22 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
         draw();
 
-
-        LinearLayout llPanelInteractive = new LinearLayout(this);
-        llPanelInteractive.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        llPanelInteractive.setOrientation(LinearLayout.HORIZONTAL);
-        llPanelInteractive.setGravity(Gravity.CENTER_HORIZONTAL);
-
-        //Button btnPlaceHolder = new Button(this);
-        //btnPlaceholder.setText("btnPlaceholder");
-        //btnPlaceholder.setOnClickListener(new View.OnClickListener() {
-        //    @Override
-        //    public void onClick(View v) {
-        //        cm.setCamera(new point(0, 0), new point(1, 0));
-        //        draw();
-        //    }
-        //});
-        //llPanelCam.addView(btnPlaceholder);
+        LinearLayout llPanelInteractive = bs.PutPanel(this);
 
         linlay.addView(llPanelInteractive);
 

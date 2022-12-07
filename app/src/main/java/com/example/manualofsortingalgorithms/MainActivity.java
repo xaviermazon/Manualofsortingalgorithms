@@ -106,11 +106,6 @@ public class MainActivity extends AppCompatActivity {
         canvas.setBitmap(bitmap);
         canvas.drawColor(Color.LTGRAY);
 
-        pm = new PolygonManager();
-        pm.add(new Polygon(new point(0, 0), 0.3, 4));
-        pm.add(new Polygon(new point(1, 0), 0.3, 4));
-        pm.add(new Polygon(new point(2, 0), 0.3, 4));
-
         cm = new CoordinatesManager();
         cm.size = size;
         cm.setCamera(new point(0, 0), pCamera);

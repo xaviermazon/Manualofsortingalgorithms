@@ -19,8 +19,7 @@ public class PolygonManager {
     }
     void draw(Canvas canvas) {
         for(int i = 0; i < lPolygons.size(); i++)
-            if(indexSelected != i) lPolygons.get(i).draw(canvas, false);
-            else lPolygons.get(i).draw(canvas, true);
+            lPolygons.get(i).draw(canvas);
     }
     void select(point p) {
        indexSelected = -1;

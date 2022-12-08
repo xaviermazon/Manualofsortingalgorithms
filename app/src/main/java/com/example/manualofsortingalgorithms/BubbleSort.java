@@ -17,12 +17,13 @@ public class BubbleSort {
     int[] array;
     int level;
     PolygonManager pm;
-    String numsDraw;
+    String[] numsDraw;
     boolean switched = true;
 
     BubbleSort(int level) {
         int length = 0, range = 0;
         this.level = level;
+        pm = new PolygonManager();
         switch(level) {
             case 1:  length = 10;
                      range = 20;
@@ -31,11 +32,16 @@ public class BubbleSort {
                      range = 40;
                      break;
             default: length = 10;
-                     range = 10;
+                     range = 20;
         }
         array = new int[length];
-        for(int i = 0; i < length; i++) array[i] = new Random().nextInt(range);
-        pm = new PolygonManager();
+        numsDraw = new String[length];
+        for(int i = 0; i < length; i++) {
+            array[i] = new Random().nextInt(range);
+            pm.add(new Polygon(new point(7f+(17*i), -4f), 8f, 4));
+            if(array[i] <= 9) numsDraw[i] = (" "+String.valueOf(array[i]));
+            else numsDraw[i] = String.valueOf(array[i]);
+        }
     }
 
     void BubbleSort() {
@@ -85,15 +91,8 @@ public class BubbleSort {
         tmpCell.setStyle(Paint.Style.FILL);
         tmpCell.setTextSize(12f);
 
-        if(switched) {
-            numsDraw = " ";
-            for(int i = 0; i < 7; i++) {
-                pm.add(new Polygon(new point(7f+(17*i), -4f), 8f, 4));
-                numsDraw += (String.valueOf(array[i])+ " ");
-            }
-            switched = false;
-        }
-        canvas.drawText(numsDraw,7.0f,0.0f, tmpCell);
+        for(int i = 0; i < numsDraw.length; i++)
+            canvas.drawText(numsDraw[i],0.0f+(17*i),0.0f, tmpCell);
         pm.draw(canvas);
 
     }
@@ -110,6 +109,12 @@ public class BubbleSort {
             @Override
             public void onClick(View v) {
                 switchToElements();
+                pm.clearPolygons();
+                for(int i = 0; i < array.length; i++) {
+                    pm.add(new Polygon(new point(7f+(17*i), -4f), 8f, 4));
+                    if(array[i] <= 9) numsDraw[i] = (" "+String.valueOf(array[i]));
+                    else numsDraw[i] = String.valueOf(array[i]);
+                }
                 mainActivity.draw();
             }
         });

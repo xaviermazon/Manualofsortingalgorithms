@@ -36,5 +36,6 @@ public class PolygonManager {
     Polygon getSelected() {
         return lPolygons.get(indexSelected);
     }
+    void clearPolygons() { lPolygons.clear(); }
 
 }

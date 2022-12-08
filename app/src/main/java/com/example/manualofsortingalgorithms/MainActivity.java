@@ -24,7 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     LinearLayout linlay;
-    int[] array = new int[]{11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int[] array = new int[] {11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
     String bufArray = "";
     TextView txtArraySorted;
     Configuration config;
@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
         Point p = new Point();
         getWindowManager().getDefaultDisplay().getSize(p);
         int size = (int) (p.y * 0.6);
-        Log.e("Dimensions", "onCreate: X:" + p.x + " p.y:" + p.y);
         imageView.setLayoutParams(new LinearLayout.LayoutParams(p.x, size));
         bitmap = Bitmap.createBitmap(p.x, size, Bitmap.Config.ARGB_8888);
         imageView.setImageBitmap(bitmap);

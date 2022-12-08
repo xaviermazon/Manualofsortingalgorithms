@@ -32,7 +32,7 @@ public class BubbleSort {
                      range = 10;
         }
         array = new int[length];
-        for(int i = 0; i < length; i++) array[i] = new Random().nextInt() % range;
+        for(int i = 0; i < length; i++) array[i] = new Random().nextInt(range);
         pm = new PolygonManager();
     }
 
@@ -86,7 +86,6 @@ public class BubbleSort {
         for(int i = 0; i < 7; i++) {
             pm.add(new Polygon(new point(7f+(17*i), -4f), 8f, 4));
             numsDraw = (String.valueOf(array[i])+ " ");
-            Log.e("DATOS", "draw: "+numsDraw);
             tmpCell.setColor(Color.BLACK);
             tmpCell.setStyle(Paint.Style.FILL);
             tmpCell.setTextSize(12f);

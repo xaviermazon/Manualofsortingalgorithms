@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     LinearLayout linlay;
     int[] array = new int[] {11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    long curmilliseconds;
     String bufArray = "";
     TextView txtArraySorted;
     Configuration config;
@@ -35,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     PolygonManager pm;
     BubbleSort bs;
     point pCamera = new point(24, 0);
+    Handler handler;
+    Runnable runnable;
 
     void draw() {
         canvas.drawColor(Color.YELLOW);
@@ -127,6 +131,19 @@ public class MainActivity extends AppCompatActivity {
         });
 
         draw();
+        curmilliseconds = System.currentTimeMillis();
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                long nextCurMilliSeconds = System.currentTimeMillis();
+                double delta = (nextCurMilliSeconds-curmilliseconds)/1000.0;
+                curmilliseconds = nextCurMilliSeconds;
+                draw();
+                //si la bola te sigue el dedo
+                handler.postDelayed(runnable,10);
+            }
+        };
 
         LinearLayout llPanelInteractive = bs.PutPanel(this);
 

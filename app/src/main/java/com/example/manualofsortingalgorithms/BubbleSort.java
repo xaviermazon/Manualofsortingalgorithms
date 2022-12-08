@@ -17,6 +17,8 @@ public class BubbleSort {
     int[] array;
     int level;
     PolygonManager pm;
+    String numsDraw;
+    boolean switched = true;
 
     BubbleSort(int level) {
         int length = 0, range = 0;
@@ -71,6 +73,7 @@ public class BubbleSort {
         int tmp = array[0];
         array[0] = array[1];
         array[1] = tmp;
+        switched = true;
     }
 
     void draw(Canvas canvas) {
@@ -78,20 +81,19 @@ public class BubbleSort {
         tmpCell.setColor(Color.YELLOW);
         canvas.drawPaint(tmpCell);
 
-        Paint paint=new Paint();
-        paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.FILL);
-        String numsDraw = " ";
+        tmpCell.setColor(Color.BLACK);
+        tmpCell.setStyle(Paint.Style.FILL);
+        tmpCell.setTextSize(12f);
 
-        for(int i = 0; i < 7; i++) {
-            pm.add(new Polygon(new point(7f+(17*i), -4f), 8f, 4));
-            numsDraw = (String.valueOf(array[i])+ " ");
-            tmpCell.setColor(Color.BLACK);
-            tmpCell.setStyle(Paint.Style.FILL);
-            tmpCell.setTextSize(12f);
-            canvas.drawText(numsDraw,0.0f+(17*i),0.0f, tmpCell);
+        if(switched) {
+            numsDraw = " ";
+            for(int i = 0; i < 7; i++) {
+                pm.add(new Polygon(new point(7f+(17*i), -4f), 8f, 4));
+                numsDraw += (String.valueOf(array[i])+ " ");
+            }
+            switched = false;
         }
-
+        canvas.drawText(numsDraw,7.0f,0.0f, tmpCell);
         pm.draw(canvas);
 
     }

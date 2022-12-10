@@ -1,8 +1,10 @@
 package com.example.manualofsortingalgorithms;
 
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -14,15 +16,18 @@ import java.util.Random;
 
 public class BubbleSort {
 
-    int[] array;
-    int level;
+    int[] array, status;
+    int level, iPlayer, jPlayer;
     PolygonManager pm;
     String[] numsDraw;
     boolean switched = true;
+    Paint tmpCell;
 
     BubbleSort(int level) {
         int length = 0, range = 0;
         this.level = level;
+        this.iPlayer = 0;
+        this.jPlayer = 0;
         pm = new PolygonManager();
         switch(level) {
             case 1:  length = 10;
@@ -38,13 +43,14 @@ public class BubbleSort {
         numsDraw = new String[length];
         for(int i = 0; i < length; i++) {
             array[i] = new Random().nextInt(range);
-            pm.add(new Polygon(new point(7f+(17*i), -4f), 8f, 4));
+            pm.add(new Polygon(new point(7f+(16*i), -4f), 8f, 4));
             if(array[i] <= 9) numsDraw[i] = (" "+String.valueOf(array[i]));
             else numsDraw[i] = String.valueOf(array[i]);
         }
+        tmpCell = new Paint();
     }
 
-    void BubbleSort() {
+    void bubbleSort() {
         for(int i = 0; i < array.length; i++) {
             for(int j = 0; j < array.length; j++) {
                 if(array[j] > array[j+1]) {
@@ -56,7 +62,7 @@ public class BubbleSort {
         }
     }
 
-    void BubbleSortImproved() {
+    void bubbleSortImproved() {
         for(int i = 0; i < array.length; i++) {
             boolean flag = false;
             for(int j = 0; j < array.length-i-1; j++) {
@@ -76,25 +82,36 @@ public class BubbleSort {
     }
 
     void switchToElements() {
-        int tmp = array[0];
-        array[0] = array[1];
-        array[1] = tmp;
-        switched = true;
+        int tmp = array[iPlayer];
+        array[iPlayer] = array[jPlayer];
+        array[jPlayer] = tmp;
     }
 
     void draw(Canvas canvas) {
-        Paint tmpCell = new Paint();
-        tmpCell.setColor(Color.YELLOW);
-        canvas.drawPaint(tmpCell);
+        //canvas.drawPaint(tmpCell);
 
         tmpCell.setColor(Color.BLACK);
+
         tmpCell.setStyle(Paint.Style.FILL);
         tmpCell.setTextSize(12f);
-
         for(int i = 0; i < numsDraw.length; i++)
-            canvas.drawText(numsDraw[i],0.0f+(17*i),0.0f, tmpCell);
+            canvas.drawText(numsDraw[i],0.0f+(16*i),0.0f, tmpCell);
         pm.draw(canvas);
 
+        if(iPlayer == jPlayer) canvas.drawText("i j",3.0f+(16*iPlayer),18.0f, tmpCell);
+        else {
+            canvas.drawText("j", 6.0f + (16 * jPlayer), 18.0f, tmpCell);
+            canvas.drawText("i", 6.0f + (16 * iPlayer), 18.0f, tmpCell);
+        }
+
+        tmpCell.setStyle(Paint.Style.STROKE);
+        tmpCell.setStrokeWidth(1f);
+
+        canvas.drawArc(new RectF(-2.0f+(16*iPlayer), 6.0f,0.0f+(16*(iPlayer+1))
+                ,25.0f),225f,90f,false,tmpCell);
+        canvas.drawArc(new RectF(-2.0f+(16*jPlayer), 6.0f,0.0f+(16*(jPlayer+1))
+                ,25.0f),225f,90f,false,tmpCell);
+        pm.draw(canvas);
     }
 
     LinearLayout PutPanel(MainActivity mainActivity) {
@@ -111,7 +128,7 @@ public class BubbleSort {
                 switchToElements();
                 pm.clearPolygons();
                 for(int i = 0; i < array.length; i++) {
-                    pm.add(new Polygon(new point(7f+(17*i), -4f), 8f, 4));
+                    pm.add(new Polygon(new point(7f+(16*i), -4f), 8f, 4));
                     if(array[i] <= 9) numsDraw[i] = (" "+String.valueOf(array[i]));
                     else numsDraw[i] = String.valueOf(array[i]);
                 }
@@ -119,6 +136,17 @@ public class BubbleSort {
             }
         });
         llPanelInteractive.addView(btnSwitchElement);
+
+        Button btnMoveCursorJ = new Button(mainActivity);
+        btnMoveCursorJ.setText("Move J cursor to next element");
+        btnMoveCursorJ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jPlayer++;
+                mainActivity.draw();
+            }
+        });
+        llPanelInteractive.addView(btnMoveCursorJ);
         return llPanelInteractive;
     }
 }

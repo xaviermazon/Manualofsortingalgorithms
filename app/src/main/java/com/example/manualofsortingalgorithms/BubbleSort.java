@@ -22,6 +22,7 @@ public class BubbleSort {
     String[] numsDraw;
     boolean switched = true;
     Paint tmpCell;
+    Button btnCheckFase;
 
     BubbleSort(int level) {
         int length = 0, range = 0;
@@ -40,6 +41,7 @@ public class BubbleSort {
                      range = 20;
         }
         array = new int[length];
+        status = new int[length];
         numsDraw = new String[length];
         for(int i = 0; i < length; i++) {
             array[i] = new Random().nextInt(range);
@@ -48,6 +50,24 @@ public class BubbleSort {
             else numsDraw[i] = String.valueOf(array[i]);
         }
         tmpCell = new Paint();
+    }
+
+    void bubbleSortFase() {
+        if(iPlayer < array.length) {
+            for(int j = 0; j < status.length; j++) {
+                if(status[j] > status[j+1]) {
+                    int tmp = status[j];
+                    status[j] = status[j+1];
+                    status[j+1] = tmp;
+                }
+            }
+        }
+    }
+
+    boolean bubbleSortCheckerFase() {
+        for(int i = 0; i < array.length; i++)
+            if(array[i] != status[i]) return false;
+        return true;
     }
 
     void bubbleSort() {
@@ -121,7 +141,7 @@ public class BubbleSort {
         llPanelInteractive.setGravity(Gravity.CENTER_HORIZONTAL);
 
         Button btnSwitchElement = new Button(mainActivity);
-        btnSwitchElement.setText("Switch element");
+        btnSwitchElement.setText("i <> j");
         btnSwitchElement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -138,15 +158,28 @@ public class BubbleSort {
         llPanelInteractive.addView(btnSwitchElement);
 
         Button btnMoveCursorJ = new Button(mainActivity);
-        btnMoveCursorJ.setText("Move J cursor to next element");
+        btnMoveCursorJ.setText("J >>");
         btnMoveCursorJ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                jPlayer++;
+                if(jPlayer < array.length-1) jPlayer++;
+                if(jPlayer == array.length-1) btnCheckFase.setVisibility(View.VISIBLE);
                 mainActivity.draw();
             }
         });
         llPanelInteractive.addView(btnMoveCursorJ);
+
+        btnCheckFase = new Button(mainActivity);
+        btnCheckFase.setText("Check status");
+        btnCheckFase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("CHECK", "MATCH");
+                mainActivity.draw();
+            }
+        });
+        btnCheckFase.setVisibility(View.INVISIBLE);
+        llPanelInteractive.addView(btnCheckFase);
         return llPanelInteractive;
     }
 }

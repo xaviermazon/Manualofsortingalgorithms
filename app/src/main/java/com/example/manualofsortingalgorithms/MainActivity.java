@@ -1,5 +1,6 @@
 package com.example.manualofsortingalgorithms;
 
+import android.annotation.SuppressLint;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;

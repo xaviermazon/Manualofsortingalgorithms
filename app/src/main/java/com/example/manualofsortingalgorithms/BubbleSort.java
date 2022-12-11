@@ -17,14 +17,14 @@ import java.util.Random;
 
 public class BubbleSort {
 
-    int[] array, status, newStatus;
+    int[] array, status, newStatus, initialStatus;
     int level, iPlayer, jPlayer, jPlayerPlus;
     PolygonManager pm;
     String[] numsDraw;
     boolean checked = false;
     boolean[] checks;
     Paint tmpCell;
-    Button btnResetFase, btnCheckFase, btnNextFase;
+    Button btnResetFase, btnCheckFase, btnNextFase, btnResetExercise;
 
     BubbleSort(int level) {
         int length = 0, range = 0;
@@ -47,11 +47,13 @@ public class BubbleSort {
         status = new int[length];
         newStatus = new int[length];
         numsDraw = new String[length];
+        initialStatus = new int[length];
         checks = new boolean[length];
         for(int i = 0; i < length; i++) {
             array[i] = new Random().nextInt(range);
             status[i] = array[i];
             newStatus[i] = array[i];
+            initialStatus[i] = array[i];
             pm.add(new Polygon(new point(7f+(16*i), -4f), 8f, 4));
             if(array[i] <= 9) numsDraw[i] = (" "+String.valueOf(array[i]));
             else numsDraw[i] = String.valueOf(array[i]);
@@ -139,7 +141,6 @@ public class BubbleSort {
             canvas.drawText("j", 6.0f + (16 * jPlayer), 18.0f, tmpCell);
             canvas.drawText("i", 6.0f + (16 * iPlayer), 18.0f, tmpCell);
             canvas.drawText("j'", 6.0f + (16 * jPlayerPlus), 18.0f, tmpCell);
-
         }
 
         tmpCell.setStyle(Paint.Style.STROKE);
@@ -159,7 +160,7 @@ public class BubbleSort {
         LinearLayout llPanelInteractive = new LinearLayout(mainActivity);
         llPanelInteractive.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         llPanelInteractive.setOrientation(LinearLayout.HORIZONTAL);
-        llPanelInteractive.setGravity(Gravity.CENTER_HORIZONTAL);
+        llPanelInteractive.setGravity(Gravity.LEFT);
 
         btnResetFase = new Button(mainActivity);
         btnResetFase.setText("Reset fase");
@@ -182,6 +183,28 @@ public class BubbleSort {
         });
         llPanelInteractive.addView(btnResetFase);
 
+        btnResetExercise = new Button(mainActivity);
+        btnResetExercise.setText("Reset exercise");
+        btnResetExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jPlayerPlus = 1;
+                jPlayer = 0;
+                checked = false;
+                for(int i = 0; i < array.length; i++) {
+                    array[i] = initialStatus[i];
+                    status[i] = initialStatus[i];
+                    newStatus[i] = initialStatus[i];
+                    pm.add(new Polygon(new point(7f+(16*i), -4f), 8f, 4));
+                    if(array[i] <= 9) numsDraw[i] = (" "+String.valueOf(array[i]));
+                    else numsDraw[i] = String.valueOf(array[i]);
+                }
+                btnCheckFase.setVisibility(View.INVISIBLE);
+                btnNextFase.setVisibility(View.INVISIBLE);
+                mainActivity.draw();
+            }
+        });
+        llPanelInteractive.addView(btnResetExercise);
 
         Button btnSwitchElement = new Button(mainActivity);
         btnSwitchElement.setText("j <> j'");
@@ -225,16 +248,19 @@ public class BubbleSort {
                     Toast toast = Toast.makeText(mainActivity, "Well done!", Toast.LENGTH_SHORT);
                     toast.show();
                     btnNextFase.setVisibility(View.VISIBLE);
+                    btnResetFase.setVisibility(View.INVISIBLE);
                 } else if(bubbleSortCheckerFase() && iPlayer == array.length-1) {
                     Toast toast = Toast.makeText(mainActivity, "Congratulations!", Toast.LENGTH_SHORT);
                     toast.show();
                     btnCheckFase.setVisibility(View.VISIBLE);
+                    btnResetFase.setVisibility(View.INVISIBLE);
                 } else {
                     Toast toast = Toast.makeText(mainActivity, "A few errors have been found, please try again!", Toast.LENGTH_LONG);
                     toast.show();
                     btnResetFase.setVisibility(View.VISIBLE);
                 }
                 checked = true;
+                btnCheckFase.setVisibility(View.INVISIBLE);
                 mainActivity.draw();
             }
         });

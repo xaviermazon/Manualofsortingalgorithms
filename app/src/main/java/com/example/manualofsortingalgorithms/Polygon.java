@@ -32,6 +32,15 @@ public class Polygon {
         canvas.drawRect((float) (c.x-r), (float) (c.y+r), (float) (c.x+r), (float) (c.y-r),tmp);
     }
 
+    void drawCheck(Canvas canvas,boolean validated) {
+        Paint tmp = new Paint();
+        if(!validated) tmp.setColor(Color.RED);
+        else tmp.setColor(Color.GREEN);
+        tmp.setStrokeWidth(1f);
+        tmp.setStyle(Paint.Style.STROKE);
+        canvas.drawRect((float) (c.x-r), (float) (c.y+r), (float) (c.x+r), (float) (c.y-r),tmp);
+    }
+
     boolean inside(point p) {
         for (int i = 0; i < v.length; i++)
             if (point.crossProd(

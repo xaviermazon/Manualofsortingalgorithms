@@ -21,7 +21,8 @@ public class BubbleSort {
     int level, iPlayer, jPlayer, jPlayerPlus;
     PolygonManager pm;
     String[] numsDraw;
-    boolean switched = true;
+    boolean checked = false;
+    boolean[] checks;
     Paint tmpCell;
     Button btnCheckFase;
 
@@ -46,6 +47,7 @@ public class BubbleSort {
         status = new int[length];
         newStatus = new int[length];
         numsDraw = new String[length];
+        checks = new boolean[length];
         for(int i = 0; i < length; i++) {
             array[i] = new Random().nextInt(range);
             status[i] = array[i];
@@ -115,14 +117,18 @@ public class BubbleSort {
     void draw(Canvas canvas) {
         //canvas.drawPaint(tmpCell);
 
-        tmpCell.setColor(Color.BLACK);
-
         tmpCell.setStyle(Paint.Style.FILL);
         tmpCell.setTextSize(12f);
-        for(int i = 0; i < numsDraw.length; i++)
+        for(int i = 0; i < numsDraw.length; i++) {
+            if(checked) {
+                if(array[i] == newStatus[i]) tmpCell.setColor(Color.GREEN);
+                else tmpCell.setColor(Color.RED);
+            } else tmpCell.setColor(Color.BLACK);
             canvas.drawText(numsDraw[i],0.0f+(16*i),0.0f, tmpCell);
+        }
         pm.draw(canvas);
 
+        tmpCell.setColor(Color.BLACK);
         if(iPlayer == jPlayer) canvas.drawText("i j",3.0f+(16*iPlayer),18.0f, tmpCell);
         else {
             canvas.drawText("j", 6.0f + (16 * jPlayer), 18.0f, tmpCell);
@@ -143,6 +149,7 @@ public class BubbleSort {
     }
 
     LinearLayout PutPanel(MainActivity mainActivity) {
+
         LinearLayout llPanelInteractive = new LinearLayout(mainActivity);
         llPanelInteractive.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         llPanelInteractive.setOrientation(LinearLayout.HORIZONTAL);
@@ -193,6 +200,7 @@ public class BubbleSort {
                     Toast toast = Toast.makeText(mainActivity, "There are some bugs check them out!", Toast.LENGTH_LONG);
                     toast.show();
                 }
+                checked = true;
                 mainActivity.draw();
             }
         });

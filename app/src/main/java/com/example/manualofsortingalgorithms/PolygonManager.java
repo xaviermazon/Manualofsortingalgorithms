@@ -21,6 +21,10 @@ public class PolygonManager {
         for(int i = 0; i < lPolygons.size(); i++)
             lPolygons.get(i).draw(canvas);
     }
+    void drawChecker(Canvas canvas, boolean[] checks) {
+        for(int i = 0; i < lPolygons.size(); i++)
+            lPolygons.get(i).drawCheck(canvas,checks[i]);
+    }
     void select(point p) {
        indexSelected = -1;
        for (int i = lPolygons.size()-1;i>=0;i--) {

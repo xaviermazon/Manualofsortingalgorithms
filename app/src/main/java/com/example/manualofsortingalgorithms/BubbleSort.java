@@ -129,12 +129,18 @@ public class BubbleSort {
         pm.draw(canvas);
 
         tmpCell.setColor(Color.BLACK);
-        if(iPlayer == jPlayer) canvas.drawText("i j",3.0f+(16*iPlayer),18.0f, tmpCell);
-        else {
+        if(iPlayer == jPlayer) {
+            canvas.drawText("i j",3.0f+(16*iPlayer),18.0f, tmpCell);
+            canvas.drawText("j'", 6.0f + (16 * jPlayerPlus), 18.0f, tmpCell);
+        } else if(iPlayer == jPlayerPlus) {
+            canvas.drawText("j", 6.0f + (16 * jPlayer), 18.0f, tmpCell);
+            canvas.drawText("i j'",3.0f+(16*iPlayer),18.0f, tmpCell);
+        } else {
             canvas.drawText("j", 6.0f + (16 * jPlayer), 18.0f, tmpCell);
             canvas.drawText("i", 6.0f + (16 * iPlayer), 18.0f, tmpCell);
+            canvas.drawText("j'", 6.0f + (16 * jPlayerPlus), 18.0f, tmpCell);
+
         }
-        canvas.drawText("j'", 6.0f + (16 * jPlayerPlus), 18.0f, tmpCell);
 
         tmpCell.setStyle(Paint.Style.STROKE);
         tmpCell.setStrokeWidth(1f);
@@ -163,10 +169,17 @@ public class BubbleSort {
                 jPlayerPlus = 1;
                 jPlayer = 0;
                 checked = false;
+                for(int i = 0; i < array.length; i++) {
+                    array[i] = status[i];
+                    pm.add(new Polygon(new point(7f+(16*i), -4f), 8f, 4));
+                    if(array[i] <= 9) numsDraw[i] = (" "+String.valueOf(array[i]));
+                    else numsDraw[i] = String.valueOf(array[i]);
+                }
+                btnCheckFase.setVisibility(View.INVISIBLE);
+                btnNextFase.setVisibility(View.INVISIBLE);
                 mainActivity.draw();
             }
         });
-        btnResetFase.setVisibility(View.INVISIBLE);
         llPanelInteractive.addView(btnResetFase);
 
 
@@ -208,8 +221,12 @@ public class BubbleSort {
             @Override
             public void onClick(View v) {
                 bubbleSortFase();
-                if(bubbleSortCheckerFase()) {
+                if(bubbleSortCheckerFase() && iPlayer < array.length-1) {
                     Toast toast = Toast.makeText(mainActivity, "Well done!", Toast.LENGTH_SHORT);
+                    toast.show();
+                    btnNextFase.setVisibility(View.VISIBLE);
+                } else if(bubbleSortCheckerFase() && iPlayer == array.length-1) {
+                    Toast toast = Toast.makeText(mainActivity, "Congratulations!", Toast.LENGTH_SHORT);
                     toast.show();
                     btnCheckFase.setVisibility(View.VISIBLE);
                 } else {
@@ -233,6 +250,8 @@ public class BubbleSort {
                 jPlayerPlus = 1;
                 jPlayer = 0;
                 checked = false;
+                btnCheckFase.setVisibility(View.INVISIBLE);
+                btnNextFase.setVisibility(View.INVISIBLE);
                 mainActivity.draw();
             }
         });

@@ -11,13 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.Random;
 
 public class BubbleSort {
 
-    int[] array, status;
-    int level, iPlayer, jPlayer;
+    int[] array, status, newStatus;
+    int level, iPlayer, jPlayer, jPlayerPlus;
     PolygonManager pm;
     String[] numsDraw;
     boolean switched = true;
@@ -29,6 +30,7 @@ public class BubbleSort {
         this.level = level;
         this.iPlayer = 0;
         this.jPlayer = 0;
+        this.jPlayerPlus = 1;
         pm = new PolygonManager();
         switch(level) {
             case 1:  length = 10;
@@ -42,9 +44,12 @@ public class BubbleSort {
         }
         array = new int[length];
         status = new int[length];
+        newStatus = new int[length];
         numsDraw = new String[length];
         for(int i = 0; i < length; i++) {
             array[i] = new Random().nextInt(range);
+            status[i] = array[i];
+            newStatus[i] = array[i];
             pm.add(new Polygon(new point(7f+(16*i), -4f), 8f, 4));
             if(array[i] <= 9) numsDraw[i] = (" "+String.valueOf(array[i]));
             else numsDraw[i] = String.valueOf(array[i]);
@@ -54,11 +59,11 @@ public class BubbleSort {
 
     void bubbleSortFase() {
         if(iPlayer < array.length) {
-            for(int j = 0; j < status.length; j++) {
-                if(status[j] > status[j+1]) {
-                    int tmp = status[j];
-                    status[j] = status[j+1];
-                    status[j+1] = tmp;
+            for(int j = 0; j < (newStatus.length-1); j++) {
+                if(newStatus[j] > newStatus[j+1]) {
+                    int tmp = newStatus[j];
+                    newStatus[j] = newStatus[j+1];
+                    newStatus[j+1] = tmp;
                 }
             }
         }
@@ -66,7 +71,7 @@ public class BubbleSort {
 
     boolean bubbleSortCheckerFase() {
         for(int i = 0; i < array.length; i++)
-            if(array[i] != status[i]) return false;
+            if(array[i] != newStatus[i]) return false;
         return true;
     }
 
@@ -102,9 +107,9 @@ public class BubbleSort {
     }
 
     void switchToElements() {
-        int tmp = array[iPlayer];
-        array[iPlayer] = array[jPlayer];
-        array[jPlayer] = tmp;
+        int tmp = array[jPlayer];
+        array[jPlayer] = array[jPlayerPlus];
+        array[jPlayerPlus] = tmp;
     }
 
     void draw(Canvas canvas) {
@@ -123,6 +128,7 @@ public class BubbleSort {
             canvas.drawText("j", 6.0f + (16 * jPlayer), 18.0f, tmpCell);
             canvas.drawText("i", 6.0f + (16 * iPlayer), 18.0f, tmpCell);
         }
+        canvas.drawText("j'", 6.0f + (16 * jPlayerPlus), 18.0f, tmpCell);
 
         tmpCell.setStyle(Paint.Style.STROKE);
         tmpCell.setStrokeWidth(1f);
@@ -130,6 +136,8 @@ public class BubbleSort {
         canvas.drawArc(new RectF(-2.0f+(16*iPlayer), 6.0f,0.0f+(16*(iPlayer+1))
                 ,25.0f),225f,90f,false,tmpCell);
         canvas.drawArc(new RectF(-2.0f+(16*jPlayer), 6.0f,0.0f+(16*(jPlayer+1))
+                ,25.0f),225f,90f,false,tmpCell);
+        canvas.drawArc(new RectF(-2.0f+(16*jPlayerPlus), 6.0f,0.0f+(16*(jPlayerPlus+1))
                 ,25.0f),225f,90f,false,tmpCell);
         pm.draw(canvas);
     }
@@ -141,7 +149,7 @@ public class BubbleSort {
         llPanelInteractive.setGravity(Gravity.CENTER_HORIZONTAL);
 
         Button btnSwitchElement = new Button(mainActivity);
-        btnSwitchElement.setText("i <> j");
+        btnSwitchElement.setText("j <> j'");
         btnSwitchElement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,12 +166,15 @@ public class BubbleSort {
         llPanelInteractive.addView(btnSwitchElement);
 
         Button btnMoveCursorJ = new Button(mainActivity);
-        btnMoveCursorJ.setText("J >>");
+        btnMoveCursorJ.setText("J & J' >>");
         btnMoveCursorJ.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(jPlayer < array.length-1) jPlayer++;
-                if(jPlayer == array.length-1) btnCheckFase.setVisibility(View.VISIBLE);
+                if(jPlayer < array.length-2) {
+                    jPlayer++;
+                    jPlayerPlus++;
+                }
+                if(jPlayer == array.length-2) btnCheckFase.setVisibility(View.VISIBLE);
                 mainActivity.draw();
             }
         });
@@ -174,7 +185,14 @@ public class BubbleSort {
         btnCheckFase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("CHECK", "MATCH");
+                bubbleSortFase();
+                if(bubbleSortCheckerFase()) {
+                    Toast toast = Toast.makeText(mainActivity, "Well done!", Toast.LENGTH_SHORT);
+                    toast.show();
+                } else {
+                    Toast toast = Toast.makeText(mainActivity, "There are some bugs check them out!", Toast.LENGTH_LONG);
+                    toast.show();
+                }
                 mainActivity.draw();
             }
         });

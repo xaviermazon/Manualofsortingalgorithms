@@ -24,7 +24,7 @@ public class BubbleSort {
     boolean checked = false;
     boolean[] checks;
     Paint tmpCell;
-    Button btnCheckFase;
+    Button btnResetFase, btnCheckFase, btnNextFase;
 
     BubbleSort(int level) {
         int length = 0, range = 0;
@@ -155,6 +155,21 @@ public class BubbleSort {
         llPanelInteractive.setOrientation(LinearLayout.HORIZONTAL);
         llPanelInteractive.setGravity(Gravity.CENTER_HORIZONTAL);
 
+        btnResetFase = new Button(mainActivity);
+        btnResetFase.setText("Reset fase");
+        btnResetFase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                jPlayerPlus = 1;
+                jPlayer = 0;
+                checked = false;
+                mainActivity.draw();
+            }
+        });
+        btnResetFase.setVisibility(View.INVISIBLE);
+        llPanelInteractive.addView(btnResetFase);
+
+
         Button btnSwitchElement = new Button(mainActivity);
         btnSwitchElement.setText("j <> j'");
         btnSwitchElement.setOnClickListener(new View.OnClickListener() {
@@ -196,9 +211,11 @@ public class BubbleSort {
                 if(bubbleSortCheckerFase()) {
                     Toast toast = Toast.makeText(mainActivity, "Well done!", Toast.LENGTH_SHORT);
                     toast.show();
+                    btnCheckFase.setVisibility(View.VISIBLE);
                 } else {
-                    Toast toast = Toast.makeText(mainActivity, "There are some bugs check them out!", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(mainActivity, "A few errors have been found, please try again!", Toast.LENGTH_LONG);
                     toast.show();
+                    btnResetFase.setVisibility(View.VISIBLE);
                 }
                 checked = true;
                 mainActivity.draw();
@@ -206,6 +223,22 @@ public class BubbleSort {
         });
         btnCheckFase.setVisibility(View.INVISIBLE);
         llPanelInteractive.addView(btnCheckFase);
+
+        btnNextFase = new Button(mainActivity);
+        btnNextFase.setText("Next fase");
+        btnNextFase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iPlayer++;
+                jPlayerPlus = 1;
+                jPlayer = 0;
+                checked = false;
+                mainActivity.draw();
+            }
+        });
+        btnNextFase.setVisibility(View.INVISIBLE);
+        llPanelInteractive.addView(btnNextFase);
+
         return llPanelInteractive;
     }
 }

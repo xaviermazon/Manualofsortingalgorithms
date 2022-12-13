@@ -155,14 +155,14 @@ public class BubbleSort {
         pm.draw(canvas);
     }
 
-    LinearLayout PutPanel(MainActivity mainActivity) {
+    LinearLayout PutPanel(interactiveSorting iSActivity) {
 
-        LinearLayout llPanelInteractive = new LinearLayout(mainActivity);
+        LinearLayout llPanelInteractive = new LinearLayout(iSActivity);
         llPanelInteractive.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         llPanelInteractive.setOrientation(LinearLayout.HORIZONTAL);
         llPanelInteractive.setGravity(Gravity.LEFT);
 
-        btnResetFase = new Button(mainActivity);
+        btnResetFase = new Button(iSActivity);
         btnResetFase.setText("Reset fase");
         btnResetFase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,12 +178,12 @@ public class BubbleSort {
                 }
                 btnCheckFase.setVisibility(View.INVISIBLE);
                 btnNextFase.setVisibility(View.INVISIBLE);
-                mainActivity.draw();
+                iSActivity.draw();
             }
         });
         llPanelInteractive.addView(btnResetFase);
 
-        btnResetExercise = new Button(mainActivity);
+        btnResetExercise = new Button(iSActivity);
         btnResetExercise.setText("Reset exercise");
         btnResetExercise.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -202,12 +202,12 @@ public class BubbleSort {
                 }
                 btnCheckFase.setVisibility(View.INVISIBLE);
                 btnNextFase.setVisibility(View.INVISIBLE);
-                mainActivity.draw();
+                iSActivity.draw();
             }
         });
         llPanelInteractive.addView(btnResetExercise);
 
-        Button btnSwitchElement = new Button(mainActivity);
+        Button btnSwitchElement = new Button(iSActivity);
         btnSwitchElement.setText("j <> j'");
         btnSwitchElement.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,12 +219,12 @@ public class BubbleSort {
                     if(array[i] <= 9) numsDraw[i] = (" "+String.valueOf(array[i]));
                     else numsDraw[i] = String.valueOf(array[i]);
                 }
-                mainActivity.draw();
+                iSActivity.draw();
             }
         });
         llPanelInteractive.addView(btnSwitchElement);
 
-        Button btnMoveCursorJ = new Button(mainActivity);
+        Button btnMoveCursorJ = new Button(iSActivity);
         btnMoveCursorJ.setText("J & J' >>");
         btnMoveCursorJ.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -234,41 +234,41 @@ public class BubbleSort {
                     jPlayerPlus++;
                 }
                 if(jPlayer == array.length-2) btnCheckFase.setVisibility(View.VISIBLE);
-                mainActivity.draw();
+                iSActivity.draw();
             }
         });
         llPanelInteractive.addView(btnMoveCursorJ);
 
-        btnCheckFase = new Button(mainActivity);
+        btnCheckFase = new Button(iSActivity);
         btnCheckFase.setText("Check status");
         btnCheckFase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 bubbleSortFase();
                 if(bubbleSortCheckerFase() && iPlayer < array.length-1) {
-                    Toast toast = Toast.makeText(mainActivity, "Well done!", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(iSActivity, "Well done!", Toast.LENGTH_SHORT);
                     toast.show();
                     btnNextFase.setVisibility(View.VISIBLE);
                     btnResetFase.setVisibility(View.INVISIBLE);
                 } else if(bubbleSortCheckerFase() && iPlayer == array.length-1) {
-                    Toast toast = Toast.makeText(mainActivity, "Congratulations!", Toast.LENGTH_SHORT);
+                    Toast toast = Toast.makeText(iSActivity, "Congratulations!", Toast.LENGTH_SHORT);
                     toast.show();
                     btnCheckFase.setVisibility(View.VISIBLE);
                     btnResetFase.setVisibility(View.INVISIBLE);
                 } else {
-                    Toast toast = Toast.makeText(mainActivity, "A few errors have been found, please try again!", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(iSActivity, "A few errors have been found, please try again!", Toast.LENGTH_LONG);
                     toast.show();
                     btnResetFase.setVisibility(View.VISIBLE);
                 }
                 checked = true;
                 btnCheckFase.setVisibility(View.INVISIBLE);
-                mainActivity.draw();
+                iSActivity.draw();
             }
         });
         btnCheckFase.setVisibility(View.INVISIBLE);
         llPanelInteractive.addView(btnCheckFase);
 
-        btnNextFase = new Button(mainActivity);
+        btnNextFase = new Button(iSActivity);
         btnNextFase.setText("Next fase");
         btnNextFase.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -281,7 +281,7 @@ public class BubbleSort {
                     status[i] = array[i];
                 btnCheckFase.setVisibility(View.INVISIBLE);
                 btnNextFase.setVisibility(View.INVISIBLE);
-                mainActivity.draw();
+                iSActivity.draw();
             }
         });
         btnNextFase.setVisibility(View.INVISIBLE);

@@ -26,9 +26,12 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".interactiveSorting"
+            android:name=".Lesson"
             android:label="@string/app_name" >
-
+        </activity>
+        <activity
+            android:name=".InteractiveSorting"
+            android:label="@string/app_name" >
         </activity>
     </application>
 

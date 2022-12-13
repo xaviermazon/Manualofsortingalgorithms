@@ -10,7 +10,6 @@ import android.graphics.Matrix;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -22,7 +21,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class interactiveSorting extends AppCompatActivity {
+public class InteractiveSorting extends AppCompatActivity {
 
     LinearLayout linlay;
     int[] array = new int[] {11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
@@ -63,8 +62,8 @@ public class interactiveSorting extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        String value = intent.getStringExtra("key");
-        /*if(value.equals("bs"))*/ bs = new BubbleSort(0);
+        int value = intent.getIntExtra("level", 0);
+        if(value == 0) bs = new BubbleSort(0);
         config = this.getResources().getConfiguration();
         linlay = new LinearLayout(this);
         linlay.setLayoutParams(new LinearLayout.LayoutParams(

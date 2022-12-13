@@ -1,16 +1,15 @@
 package com.example.manualofsortingalgorithms;
 
-import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Random;
@@ -155,7 +154,7 @@ public class BubbleSort {
         pm.draw(canvas);
     }
 
-    LinearLayout PutPanel(interactiveSorting iSActivity) {
+    LinearLayout PutPanel(InteractiveSorting iSActivity) {
 
         LinearLayout llPanelInteractive = new LinearLayout(iSActivity);
         llPanelInteractive.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -288,5 +287,23 @@ public class BubbleSort {
         llPanelInteractive.addView(btnNextFase);
 
         return llPanelInteractive;
+    }
+    LinearLayout explainAlgorithm(Lesson lessonTutorial) {
+
+        LinearLayout llPanelLesson = new LinearLayout(lessonTutorial);
+        llPanelLesson.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        llPanelLesson.setOrientation(LinearLayout.VERTICAL);
+        llPanelLesson.setGravity(Gravity.FILL_VERTICAL);
+
+        TextView txtTitle = new TextView(lessonTutorial);
+        txtTitle.setTextSize(36f);
+        txtTitle.setText("Bubble Sort");
+        llPanelLesson.addView(txtTitle);
+
+        TextView txtIntroduccion = new TextView(lessonTutorial);
+        txtIntroduccion.setText("Es el primer algoritmo de ordenacion que se le enseña a un desarrollador/a, es por lo facil que es de implementar y no por su redimiento.");
+        llPanelLesson.addView(txtIntroduccion);
+
+        return llPanelLesson;
     }
 }

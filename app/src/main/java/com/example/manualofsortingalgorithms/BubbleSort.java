@@ -190,6 +190,7 @@ public class BubbleSort {
             public void onClick(View v) {
                 jPlayerPlus = 1;
                 jPlayer = 0;
+                iPlayer = 0;
                 checked = false;
                 for(int i = 0; i < array.length; i++) {
                     array[i] = initialStatus[i];
@@ -276,6 +277,8 @@ public class BubbleSort {
                 jPlayerPlus = 1;
                 jPlayer = 0;
                 checked = false;
+                for(int i = 0; i < array.length; i++)
+                    status[i] = array[i];
                 btnCheckFase.setVisibility(View.INVISIBLE);
                 btnNextFase.setVisibility(View.INVISIBLE);
                 mainActivity.draw();

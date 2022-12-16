@@ -62,8 +62,9 @@ public class InteractiveSorting extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        int value = intent.getIntExtra("level", 0);
-        if(value == 0) bs = new BubbleSort(0);
+        int level = intent.getIntExtra("level", 0);
+        boolean improved = intent.getBooleanExtra("improved",false);
+        bs = new BubbleSort(level);
         config = this.getResources().getConfiguration();
         linlay = new LinearLayout(this);
         linlay.setLayoutParams(new LinearLayout.LayoutParams(
@@ -145,7 +146,7 @@ public class InteractiveSorting extends AppCompatActivity {
             }
         };
 
-        LinearLayout llPanelInteractive = bs.PutPanel(this);
+        LinearLayout llPanelInteractive = bs.PutPanel(this, improved);
 
         linlay.addView(llPanelInteractive);
 

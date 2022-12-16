@@ -20,26 +20,32 @@ public class BubbleSort {
     int level, iPlayer, jPlayer, jPlayerPlus;
     PolygonManager pm;
     String[] numsDraw;
-    boolean checked = false;
+    boolean checked = false, variant = true, swap = false;
     boolean[] checks;
     Paint tmpCell;
-    Button btnResetFase, btnCheckFase, btnNextFase, btnResetExercise;
+    Button btnResetFase, btnCheckFase, btnNextFase, btnResetExercise, btnCheckArray;
+
+    BubbleSort() {}
 
     BubbleSort(int level) {
-        int length = 0, range = 0;
-        this.level = level;
         this.iPlayer = 0;
         this.jPlayer = 0;
         this.jPlayerPlus = 1;
+        setLevel(level);
+    }
+
+    void setLevel(int level) {
+        this.level = level;
+        int length = 0, range = 0;
         pm = new PolygonManager();
         switch(level) {
-            case 1:  length = 10;
+            case 1:  length = 15;
                      range = 20;
                      break;
             case 2:  length = 30;
                      range = 40;
                      break;
-            default: length = 10;
+            default: length = 5;
                      range = 20;
         }
         array = new int[length];
@@ -58,6 +64,7 @@ public class BubbleSort {
             else numsDraw[i] = String.valueOf(array[i]);
         }
         tmpCell = new Paint();
+
     }
 
     void bubbleSortFase() {
@@ -113,6 +120,7 @@ public class BubbleSort {
         int tmp = array[jPlayer];
         array[jPlayer] = array[jPlayerPlus];
         array[jPlayerPlus] = tmp;
+        swap = true;
     }
 
     void draw(Canvas canvas) {
@@ -154,7 +162,7 @@ public class BubbleSort {
         pm.draw(canvas);
     }
 
-    LinearLayout PutPanel(InteractiveSorting iSActivity) {
+    LinearLayout PutPanel(InteractiveSorting iSActivity, boolean improved) {
 
         LinearLayout llPanelInteractive = new LinearLayout(iSActivity);
         llPanelInteractive.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
@@ -169,6 +177,7 @@ public class BubbleSort {
                 jPlayerPlus = 1;
                 jPlayer = 0;
                 checked = false;
+                swap = false;
                 for(int i = 0; i < array.length; i++) {
                     array[i] = status[i];
                     pm.add(new Polygon(new point(7f+(16*i), -4f), 8f, 4));
@@ -177,6 +186,7 @@ public class BubbleSort {
                 }
                 btnCheckFase.setVisibility(View.INVISIBLE);
                 btnNextFase.setVisibility(View.INVISIBLE);
+                btnCheckArray.setVisibility(View.INVISIBLE);
                 iSActivity.draw();
             }
         });
@@ -191,6 +201,7 @@ public class BubbleSort {
                 jPlayer = 0;
                 iPlayer = 0;
                 checked = false;
+                swap = false;
                 for(int i = 0; i < array.length; i++) {
                     array[i] = initialStatus[i];
                     status[i] = initialStatus[i];
@@ -201,6 +212,7 @@ public class BubbleSort {
                 }
                 btnCheckFase.setVisibility(View.INVISIBLE);
                 btnNextFase.setVisibility(View.INVISIBLE);
+                btnCheckArray.setVisibility(View.INVISIBLE);
                 iSActivity.draw();
             }
         });
@@ -232,7 +244,10 @@ public class BubbleSort {
                     jPlayer++;
                     jPlayerPlus++;
                 }
-                if(jPlayer == array.length-2) btnCheckFase.setVisibility(View.VISIBLE);
+                if(jPlayer == array.length-2) {
+                    btnCheckFase.setVisibility(View.VISIBLE);
+                    if(!swap) btnCheckArray.setVisibility(View.VISIBLE);
+                }
                 iSActivity.draw();
             }
         });
@@ -280,14 +295,38 @@ public class BubbleSort {
                     status[i] = array[i];
                 btnCheckFase.setVisibility(View.INVISIBLE);
                 btnNextFase.setVisibility(View.INVISIBLE);
+                btnCheckArray.setVisibility(View.INVISIBLE);
+                swap = false;
                 iSActivity.draw();
             }
         });
         btnNextFase.setVisibility(View.INVISIBLE);
         llPanelInteractive.addView(btnNextFase);
 
+        btnCheckArray = new Button(iSActivity);
+        btnCheckArray.setText("Check status");
+        btnCheckArray.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!swap) {
+                    boolean correct = true;
+                    for(int i = 0; i < array.length-1 && correct;i++) {
+                        correct = (array[i] <= array[i+1]);
+                    }
+                    if(correct) {
+                        Toast toast = Toast.makeText(iSActivity, "Congratulations!", Toast.LENGTH_SHORT);
+                        toast.show();
+                    }
+                    iSActivity.draw();
+                }
+            }
+        });
+        btnCheckArray.setVisibility(View.INVISIBLE);
+        llPanelInteractive.addView(btnCheckArray);
+
         return llPanelInteractive;
     }
+
     LinearLayout explainAlgorithm(Lesson lessonTutorial) {
 
         LinearLayout llPanelLesson = new LinearLayout(lessonTutorial);
@@ -298,11 +337,56 @@ public class BubbleSort {
         TextView txtTitle = new TextView(lessonTutorial);
         txtTitle.setTextSize(36f);
         txtTitle.setText("Bubble Sort");
+        txtTitle.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        llPanelLesson.addView(txtTitle);
+
+        TextView txtPropierties = new TextView(lessonTutorial);
+        txtPropierties.setTextSize(16f);
+        txtPropierties.setText("\nPropierties:\n - Space cost: Θ(1)\n - Temporary cost: Θ(n²)\n - Method: swap\n - Stable: Yes");
+        txtPropierties.setPadding(20,0,0,20);
+        llPanelLesson.addView(txtPropierties);
+
+        TextView txtIntroduccion = new TextView(lessonTutorial);
+        txtIntroduccion.setText("Es el primer algoritmo de ordenacion que se le enseña a un estudiante que aspira a ser desarrollador/a, es por la sencillez que es de implementar y no por su redimiento.\n");
+        txtIntroduccion.setPadding(20,0,0,20);
+        llPanelLesson.addView(txtIntroduccion);
+
+        TextView txtParrafo1 = new TextView(lessonTutorial);
+        txtParrafo1.setText("Tenemos un conjunto de N elementos numericos y se usa 2 cursores: i y j. El cursor i serà el cursor general que pasara cada uno de los elementos del conjunto. El cursor j comporovarà desde su posicion y su siguiente posicion sea de menor a mayor.\n");
+        txtParrafo1.setPadding(20,0,0,20);
+        llPanelLesson.addView(txtParrafo1);
+
+        TextView txtParrafo2 = new TextView(lessonTutorial);
+        txtParrafo2.setText("Una vez que el cursor j este en la penultima posición volverà a su posicion inicial y el cursor i se moverà a la siguiente posición. Este proceso se repetira hasta que el cursor i este en la ultima posicon del conjunto.\n");
+        txtParrafo2.setPadding(20,0,0,20);
+        llPanelLesson.addView(txtParrafo2);
+
+        return llPanelLesson;
+    }
+
+    LinearLayout explainAlgorithmVariant(Lesson lessonTutorial) {
+
+        LinearLayout llPanelLesson = new LinearLayout(lessonTutorial);
+        llPanelLesson.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        llPanelLesson.setOrientation(LinearLayout.VERTICAL);
+        llPanelLesson.setGravity(Gravity.FILL_VERTICAL);
+
+        TextView txtTitle = new TextView(lessonTutorial);
+        txtTitle.setTextSize(36f);
+        txtTitle.setText("Bubble Sort Improved");
+        txtTitle.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        txtTitle.setPadding(20,20,20,20);
         llPanelLesson.addView(txtTitle);
 
         TextView txtIntroduccion = new TextView(lessonTutorial);
-        txtIntroduccion.setText("Es el primer algoritmo de ordenacion que se le enseña a un desarrollador/a, es por lo facil que es de implementar y no por su redimiento.");
+        txtIntroduccion.setText("A diferencia del algoritmo base, hay una version mejorada, simplemente hay que percatarse si ha habido un cambio de elementos entre la posicion del cursor j y la siguiente posición.\n");
+        txtIntroduccion.setPadding(20,0,0,20);
         llPanelLesson.addView(txtIntroduccion);
+
+        TextView txtParrafo = new TextView(lessonTutorial);
+        txtParrafo.setText("Si habido un cambio, se repetira el proceso con la siguiente posicion del cursor i, sino podemos dar por ordenado el conjunto.\n");
+        txtParrafo.setPadding(20,0,0,20);
+        llPanelLesson.addView(txtParrafo);
 
         return llPanelLesson;
     }

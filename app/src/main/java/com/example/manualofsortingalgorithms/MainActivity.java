@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void changeToTutorial(int value) {
         Intent myIntent = new Intent(this, Lesson.class);
-        myIntent.putExtra("key", 0); //Optional parameters
+        myIntent.putExtra("key", value); //Optional parameters
         startActivity(myIntent);
     }
 
@@ -76,6 +76,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         llListSorting.addView(btnSelectionSort);
+
+        Button btnMergeSort = new Button(this);
+        btnMergeSort.setText("Merge Sort");
+        btnMergeSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToTutorial(3);
+            }
+        });
+        llListSorting.addView(btnMergeSort);
 
         setContentView(llListSorting);
     }

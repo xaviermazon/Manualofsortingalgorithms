@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +26,7 @@ public class InteractiveSorting extends AppCompatActivity {
 
     LinearLayout linlay;
     int[] array = new int[] {11, 12, 13, 14, 15, 16, 17, 18, 19, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+    int sort;
     long curmilliseconds;
     String bufArray = "";
     TextView txtArraySorted;
@@ -35,6 +37,7 @@ public class InteractiveSorting extends AppCompatActivity {
     CoordinatesManager cm;
     PolygonManager pm;
     BubbleSort bs;
+    MergeSort ms;
     point pCamera = new point(24, 0);
     Handler handler;
     Runnable runnable;
@@ -51,7 +54,14 @@ public class InteractiveSorting extends AppCompatActivity {
                 0, 0, 1});
         canvas.save();
         canvas.setMatrix(matrix);
-        bs.draw(canvas);
+        switch(sort) {
+            case 1: bs.draw(canvas);
+                break;
+            case 3: ms.draw(canvas);
+                break;
+            default:
+                Toast.makeText(this, "the lesson you have chosen is inactive", Toast.LENGTH_LONG);
+        }
         canvas.restore();
         imageView.invalidate();
     }
@@ -62,9 +72,18 @@ public class InteractiveSorting extends AppCompatActivity {
         //setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
+        sort = intent.getIntExtra("sort", 0);
         int level = intent.getIntExtra("level", 0);
         boolean improved = intent.getBooleanExtra("improved",false);
-        bs = new BubbleSort(level);
+
+        switch(sort) {
+            case 1: bs = new BubbleSort(level);
+                break;
+            case 3: ms = new MergeSort(level);
+                break;
+            default:
+                Toast.makeText(this, "the lesson you have chosen is inactive", Toast.LENGTH_LONG);
+        }
         config = this.getResources().getConfiguration();
         linlay = new LinearLayout(this);
         linlay.setLayoutParams(new LinearLayout.LayoutParams(
@@ -146,7 +165,16 @@ public class InteractiveSorting extends AppCompatActivity {
             }
         };
 
-        LinearLayout llPanelInteractive = bs.PutPanel(this, improved);
+        LinearLayout llPanelInteractive = null;
+
+        switch(sort) {
+            case 1: llPanelInteractive = bs.PutPanel(this, improved);
+                    break;
+            case 3: llPanelInteractive = ms.PutPanel(this);
+                    break;
+            default:
+                    Toast.makeText(this, "the lesson you have chosen is inactive", Toast.LENGTH_LONG);
+        }
 
         linlay.addView(llPanelInteractive);
 

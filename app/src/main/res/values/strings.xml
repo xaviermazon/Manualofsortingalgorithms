@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Manualofsortingalgorithms</string>
+    <string name="BubbleSort">It is the first sorting algorithm that is taught to a student who aspires to be a developer, it is because of its simplicity to implement and not because of its performance.</string>
 </resources>

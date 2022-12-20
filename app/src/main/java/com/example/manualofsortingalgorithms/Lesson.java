@@ -7,20 +7,24 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class Lesson extends AppCompatActivity {
     BubbleSort bs;
+    MergeSort ms;
+    int value;
 
-    private void changeToExercise(int value, boolean improved) {
+    private void changeToExercise(int level, boolean improved) {
         Intent myIntent = new Intent(this, InteractiveSorting.class);
-        myIntent.putExtra("level", value); //Optional parameters
+        myIntent.putExtra("sort", value);
+        myIntent.putExtra("level", level);
         myIntent.putExtra("improved", improved);
         startActivity(myIntent);
     }
 
-    void llPanelExercice(LinearLayout llExplain,boolean improved) {
+    void llPanelExercice(LinearLayout llExplain, boolean improved) {
 
         TextView txtAnnounceLevel = new TextView(this);
         txtAnnounceLevel.setText("Una vez leido la explicacion te propongo 3 ejercicios de diferentes dificultades. \nEscoje un nivell:\n");
@@ -62,10 +66,20 @@ public class Lesson extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        int value = intent.getIntExtra("key", 0);
-        if(value == 0) bs = new BubbleSort();
+        value = intent.getIntExtra("key", 0);
+        LinearLayout llExplain = null;
 
-        LinearLayout llExplain = bs.explainAlgorithm(this);
+        switch(value) {
+            case 1:  bs = new BubbleSort();
+                     llExplain = bs.explainAlgorithm(this);
+                     break;
+            case 3:  ms = new MergeSort();
+                     llExplain = ms.explainAlgorithm(this);
+                     break;
+            default:
+                     Toast.makeText(this, "the lesson you have chosen is inactive", Toast.LENGTH_LONG);
+        }
+        
         ScrollView sv = new ScrollView(this);
         sv.addView(llExplain);
 

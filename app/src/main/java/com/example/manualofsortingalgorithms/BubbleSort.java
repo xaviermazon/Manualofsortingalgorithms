@@ -21,7 +21,9 @@ public class BubbleSort {
     PolygonManager pm;
     String[] numsDraw;
     boolean checked = false, variant = true, swap = false;
-    boolean[] checks;
+    boolean bubbleEasy = false, bubbleEasyVariant = false,
+            bubbleNormal = false, bubbleNormalVariant = false,
+            bubbleHard = false, bubbleHardVariant = false;
     Paint tmpCell;
     Button btnResetFase, btnCheckFase, btnNextFase, btnResetExercise, btnCheckArray;
 
@@ -53,7 +55,6 @@ public class BubbleSort {
         newStatus = new int[length];
         numsDraw = new String[length];
         initialStatus = new int[length];
-        checks = new boolean[length];
         for(int i = 0; i < length; i++) {
             array[i] = new Random().nextInt(range);
             status[i] = array[i];
@@ -308,7 +309,7 @@ public class BubbleSort {
         btnCheckArray.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!swap) {
+                if(!swap && improved) {
                     boolean correct = true;
                     for(int i = 0; i < array.length-1 && correct;i++) {
                         correct = (array[i] <= array[i+1]);
@@ -347,17 +348,17 @@ public class BubbleSort {
         llPanelLesson.addView(txtPropierties);
 
         TextView txtIntroduccion = new TextView(lessonTutorial);
-        txtIntroduccion.setText("Es el primer algoritmo de ordenacion que se le enseña a un estudiante que aspira a ser desarrollador/a, es por la sencillez que es de implementar y no por su redimiento.\n");
+        txtIntroduccion.setText("It is the first sorting algorithm that is taught to a student who aspires to be a developer, it is because of its simplicity to implement and not because of its performance.\n");
         txtIntroduccion.setPadding(20,0,0,20);
         llPanelLesson.addView(txtIntroduccion);
 
         TextView txtParrafo1 = new TextView(lessonTutorial);
-        txtParrafo1.setText("Tenemos un conjunto de N elementos numericos y se usa 2 cursores: i y j. El cursor i serà el cursor general que pasara cada uno de los elementos del conjunto. El cursor j comporovarà desde su posicion y su siguiente posicion sea de menor a mayor.\n");
+        txtParrafo1.setText("We have a set of N numeric elements and 2 cursors are used: i and j. The cursor i will be the general cursor that will pass each of the elements of the set. Cursor j will check from its position and its next position will be from lowest to highest.\n");
         txtParrafo1.setPadding(20,0,0,20);
         llPanelLesson.addView(txtParrafo1);
 
         TextView txtParrafo2 = new TextView(lessonTutorial);
-        txtParrafo2.setText("Una vez que el cursor j este en la penultima posición volverà a su posicion inicial y el cursor i se moverà a la siguiente posición. Este proceso se repetira hasta que el cursor i este en la ultima posicon del conjunto.\n");
+        txtParrafo2.setText("Once the cursor j is in the penultimate position it will return to its initial position and the cursor i will move to the next position. This process will be repeated until the i cursor is in the last position of the array.\n");
         txtParrafo2.setPadding(20,0,0,20);
         llPanelLesson.addView(txtParrafo2);
 

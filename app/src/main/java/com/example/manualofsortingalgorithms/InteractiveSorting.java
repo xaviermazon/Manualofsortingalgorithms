@@ -55,7 +55,7 @@ public class InteractiveSorting extends AppCompatActivity {
         canvas.save();
         canvas.setMatrix(matrix);
         switch(sort) {
-            case 1: bs.draw(canvas);
+            case 0: bs.draw(canvas);
                 break;
             case 3: ms.draw(canvas);
                 break;
@@ -77,7 +77,7 @@ public class InteractiveSorting extends AppCompatActivity {
         boolean improved = intent.getBooleanExtra("improved",false);
 
         switch(sort) {
-            case 1: bs = new BubbleSort(level);
+            case 0: bs = new BubbleSort(level);
                 break;
             case 3: ms = new MergeSort(level);
                 break;
@@ -168,7 +168,7 @@ public class InteractiveSorting extends AppCompatActivity {
         LinearLayout llPanelInteractive = null;
 
         switch(sort) {
-            case 1: llPanelInteractive = bs.PutPanel(this, improved);
+            case 0: llPanelInteractive = bs.PutPanel(this, improved);
                     break;
             case 3: llPanelInteractive = ms.PutPanel(this);
                     break;

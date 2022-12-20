@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Lesson extends AppCompatActivity {
     BubbleSort bs;
     MergeSort ms;
+    QuickSort qs;
     int value;
 
     private void changeToExercise(int level, boolean improved) {
@@ -70,11 +71,14 @@ public class Lesson extends AppCompatActivity {
         LinearLayout llExplain = null;
 
         switch(value) {
-            case 1:  bs = new BubbleSort();
+            case 0:  bs = new BubbleSort();
                      llExplain = bs.explainAlgorithm(this);
                      break;
             case 3:  ms = new MergeSort();
                      llExplain = ms.explainAlgorithm(this);
+                     break;
+            case 4:  qs = new QuickSort();
+                     llExplain = qs.explainAlgorithm(this);
                      break;
             default:
                      Toast.makeText(this, "the lesson you have chosen is inactive", Toast.LENGTH_LONG);

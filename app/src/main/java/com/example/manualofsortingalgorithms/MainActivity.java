@@ -87,6 +87,16 @@ public class MainActivity extends AppCompatActivity {
         });
         llListSorting.addView(btnMergeSort);
 
+        Button btnQuickSort = new Button(this);
+        btnQuickSort.setText("Quick Sort");
+        btnQuickSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeToTutorial(4);
+            }
+        });
+        llListSorting.addView(btnQuickSort);
+
         setContentView(llListSorting);
     }
 }

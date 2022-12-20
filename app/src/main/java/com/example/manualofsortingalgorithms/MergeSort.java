@@ -79,8 +79,9 @@ public class MergeSort {
 
     boolean checkSorted() {
         boolean correct = true;
-        for (int i = 0; i < lengthPlay-1 && correct; i++)
-            correct = array[i] < array[i+1];
+        for (int i = 0; i < array.length-1 && correct; i++)
+            if(array[i] > array[i+1]) correct = false;
+
         return correct;
     }
 
@@ -275,30 +276,32 @@ public class MergeSort {
             @Override
             public void onClick(View v) {
                 if(posChecks.size() < array.length || mergeSortFase()) {
-                    Toast toast = Toast.makeText(iSActivity, "Well done!", Toast.LENGTH_SHORT);
-                    toast.show();
-                    if(jPlayer < array.length) {
-                        int diff = jPlayer-iPlayer;
-                        iPlayer+=lengthPlay;
-                        jPlayer+=lengthPlay;
+                    if(checkSorted()) {
+                        Toast toast = Toast.makeText(iSActivity, "Congratulations!", Toast.LENGTH_SHORT);
+                        toast.show();
+                        btnResetFase.setVisibility(View.INVISIBLE);
                     } else {
-                        iPlayer = 0;
-                        jPlayer = 0 + jIinitalPos + lengthPlay/2;
-                        lengthPlay *= 2;
-                        if(array.length < lengthPlay) lengthPlay = array.length;
+                        Toast toast = Toast.makeText(iSActivity, "Well done!", Toast.LENGTH_SHORT);
+                        toast.show();
+                        if(jPlayer < array.length) {
+                            int diff = jPlayer-iPlayer;
+                            iPlayer+=lengthPlay;
+                            jPlayer+=lengthPlay;
+                        } else {
+                            iPlayer = 0;
+                            jPlayer = 0 + jIinitalPos + lengthPlay/2;
+                            lengthPlay *= 2;
+                            if(array.length < lengthPlay) lengthPlay = array.length;
+                        }
+                        if(iPlayer >= array.length) {
+                            iPlayer = 0;
+                            jPlayer = 0 + jIinitalPos + lengthPlay/2;
+                            lengthPlay *= 2;
+                            if(array.length < lengthPlay) lengthPlay = array.length;
+                        }
+                        btnResetFase.setVisibility(View.INVISIBLE);
                     }
-                    if(iPlayer >= array.length) {
-                        iPlayer = 0;
-                        jPlayer = 0 + jIinitalPos + lengthPlay/2;
-                        lengthPlay *= 2;
-                        if(array.length < lengthPlay) lengthPlay = array.length;
-                    }
-                    btnResetFase.setVisibility(View.INVISIBLE);
-                } else if(mergeSortFase() && jPlayer-iPlayer >= array.length/2) {
-                    Toast toast = Toast.makeText(iSActivity, "Congratulations!", Toast.LENGTH_SHORT);
-                    toast.show();
-                    btnResetFase.setVisibility(View.INVISIBLE);
-                } else {
+                }  else {
                     Toast toast = Toast.makeText(iSActivity, "A few errors have been found, please try again!", Toast.LENGTH_LONG);
                     toast.show();
                     btnResetFase.setVisibility(View.VISIBLE);
@@ -367,7 +370,7 @@ public class MergeSort {
         TextView txtParrafo3 = new TextView(lessonTutorial);
         txtParrafo3.setText("Note: Merge sort and Shell sort are almost the same, what differs is that the shell does not make divisions on the size of the array, but on the difference in indexes.\n");
         txtParrafo3.setPadding(20,0,0,20);
-        llPanelLesson.addView(txtParrafo2);
+        llPanelLesson.addView(txtParrafo3);
 
         return llPanelLesson;
     }

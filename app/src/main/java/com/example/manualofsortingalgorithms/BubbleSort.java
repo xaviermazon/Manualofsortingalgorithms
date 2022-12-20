@@ -380,12 +380,12 @@ public class BubbleSort {
         llPanelLesson.addView(txtTitle);
 
         TextView txtIntroduccion = new TextView(lessonTutorial);
-        txtIntroduccion.setText("A diferencia del algoritmo base, hay una version mejorada, simplemente hay que percatarse si ha habido un cambio de elementos entre la posicion del cursor j y la siguiente posición.\n");
+        txtIntroduccion.setText("Unlike the base algorithm, there is an improved version, you simply have to notice if there has been a change of elements between the position of the cursor j and the next position.\n");
         txtIntroduccion.setPadding(20,0,0,20);
         llPanelLesson.addView(txtIntroduccion);
 
         TextView txtParrafo = new TextView(lessonTutorial);
-        txtParrafo.setText("Si habido un cambio, se repetira el proceso con la siguiente posicion del cursor i, sino podemos dar por ordenado el conjunto.\n");
+        txtParrafo.setText("If there has been a change, the process will be repeated with the next position of the cursor i, otherwise we can order the set.\n");
         txtParrafo.setPadding(20,0,0,20);
         llPanelLesson.addView(txtParrafo);
 
